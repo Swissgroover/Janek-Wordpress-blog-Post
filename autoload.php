@@ -12,3 +12,4 @@ $db = (new Database($config))->connection();
 
 require_once 'model' . DIRECTORY_SEPARATOR . 'DatabaseQuery.php';
 require_once 'model' . DIRECTORY_SEPARATOR . 'User.php';
+require_once 'model' . DIRECTORY_SEPARATOR . 'Post.php';

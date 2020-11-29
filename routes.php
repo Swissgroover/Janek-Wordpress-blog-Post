@@ -21,9 +21,17 @@ return [
         'title' => 'Blog',
         'file_location' => __DIR__ . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'blog' . DIRECTORY_SEPARATOR . 'list.php'
     ],
-    'post' => [
+    'blog/post' => [
         'title' => '',
         'file_location' => __DIR__ . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'blog' . DIRECTORY_SEPARATOR . 'post.php'
+    ],
+    'blog/add' => [
+        'title' => 'New blogpost',
+        'file_location' => __DIR__ . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'blog' . DIRECTORY_SEPARATOR . 'add.php'
+    ],
+    'blog/post/edit' => [
+        'title' => 'Edit blogpost',
+        'file_location' => __DIR__ . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'blog' . DIRECTORY_SEPARATOR . 'edit.php'
     ],
     'login' => [
         'title' => 'Login',

@@ -24,7 +24,7 @@ class DatabaseQuery {
     }
 
     public static function save($obj) {
-
+        
         if (empty($obj->id)) {
             return self::insert($obj);
         } else {

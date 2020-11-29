@@ -23,14 +23,4 @@ class User extends DatabaseQuery {
 
         return $stmt->fetch();
     }
-
-    /*public function all() {
-        global $db;
-
-        $sql = 'SELECT * FROM ' . $this->tableName;
-//        exit($sql);
-
-//        return $db->query($sql)->fetchAll(PDO::FETCH_CLASS, get_class($this));
-        return $db->query($sql)->fetchAll(PDO::FETCH_CLASS, __CLASS__);
-    }*/
 }

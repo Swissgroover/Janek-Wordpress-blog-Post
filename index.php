@@ -33,6 +33,9 @@ $p = trim($_SERVER['REQUEST_URI'], '/');
                 <li><a href="/">Home</a></li>
                 <?php if (isLoggedIn()) : ?>
                     <li>
+                        <a href="/blog/add">New Blogpost</a>
+                    </li>
+                    <li>
                         <a href="/users">Users</a>
                         <ul>
                             <li><a href="/users/add">add</a></li>

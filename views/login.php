@@ -1,7 +1,8 @@
 <?php
-
+/*
 print_r($_SESSION);
 var_dump(isLoggedIn());
+*/
 
 if (isLoggedIn()) {
     redirect('/');
@@ -28,6 +29,7 @@ if (isset($action) && $action === 'login') {
         //login
         //get by email
         $user = User::findByEmail($email);
+        
 
         if (is_object($user)) {
 

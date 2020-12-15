@@ -3,17 +3,33 @@ session_start();
 require_once 'autoload.php';
 
 $p = trim($_SERVER['REQUEST_URI'], '/');
+$currentPage = 0;
+
+if (is_numeric($p)) {
+    $currentPage = $p;
+    $p = 'blog';
+}
+
+$pos = strpos($p, '?search');
+
+if ($pos !== false) {
+
+    $explode = explode("=", $p);
+    $search = $explode[1];
+    $p = 'blog';
+}
+
+checkAccess($p);
 
 ?>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
+   
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
     <title>Hello, world!</title>
@@ -27,18 +43,24 @@ $p = trim($_SERVER['REQUEST_URI'], '/');
     <hr>
     <div class="row">
         <div class="col-4">
-            <h3>Menu</h3>
+            <h3><?php t('menu'); ?></h3>
 
             <ul>
-                <li><a href="/">Home</a></li>
+                <li><a href="/"><?php t('home'); ?></a></li>
                 <?php if (isLoggedIn()) : ?>
+                    <?php if ($_SESSION['role'] === 'admin') : ?>
                     <li>
-                        <a href="/blog/add">New Blogpost</a>
-                    </li>
-                    <li>
-                        <a href="/users">Users</a>
+                        <a href="/users"><?php t('users'); ?></a>
                         <ul>
-                            <li><a href="/users/add">add</a></li>
+                            <li><a href="/users/add"><?php t('add'); ?></a></li>
+                        </ul>
+                    </li>
+                    <?php endif; ?>
+
+                    <li>
+                        <a href="/posts">Posts</a>
+                        <ul>
+                            <li><a href="/posts/add">add</a></li>
                         </ul>
                     </li>
 
@@ -53,10 +75,10 @@ $p = trim($_SERVER['REQUEST_URI'], '/');
 
             <?php
             if (empty($p)) {
-                echo '<h3>' . $routes['blog']['title'] . '</h3>' ;
+                echo '<h3>' . t($routes['blog']['title']) . '</h3>' ;
                 require_once $routes['blog']['file_location'];
             } elseif (isset($routes[$p])) {
-                echo '<h3>' . $routes[$p]['title'] . '</h3>' ;
+                echo '<h3>' . t($routes[$p]['title']) . '</h3>' ;
                 require_once $routes[$p]['file_location'];
             } else {
 
@@ -70,7 +92,7 @@ $p = trim($_SERVER['REQUEST_URI'], '/');
 
                     $p = join("/", $explode);
                     if (isset($routes[$p])) {
-                        echo '<h3>' . $routes[$p]['title'] . '</h3>' ;
+                        echo '<h3>' . t($routes[$p]['title']) . '</h3>' ;
                         require_once $routes[$p]['file_location'];
                     } else {
                         require_once $routes[404]['file_location'];
@@ -85,26 +107,12 @@ $p = trim($_SERVER['REQUEST_URI'], '/');
     </div>
 </div>
 
-<!-- Optional JavaScript; choose one of the two! -->
-
 <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
-<!-- Option 2: jQuery, Popper.js, and Bootstrap JS
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
--->
+<
 </body>
 </html>
 
 <?php
-
-//id
-//email
-//password
-// 
-//added_by
-//edited
-//edited_by

@@ -16,6 +16,8 @@ $passwordAgain = filter_input(INPUT_POST, 'password_again', FILTER_SANITIZE_STRI
 $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
 //$action = 'save';
 
+print_r($_SESSION);
+
 if (isset($action) && $action === 'save') {
 
     $errors = [];
@@ -33,9 +35,9 @@ if (isset($action) && $action === 'save') {
         $user->email = $email;
         $user->password = createPassword($password);
         $user->added = date("Y-m-d H:i:s");
-        $user->added_by = 0;
+        $user->added_by = $_SESSION['user_id'];
         $user->edited = date("Y-m-d H:i:s");;
-        $user->edited_by = 0;
+        $user->edited_by = $_SESSION['user_id'];
 
         $result = User::save($user);
 

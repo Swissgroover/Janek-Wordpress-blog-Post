@@ -30,21 +30,20 @@ if (isset($action) && $action === 'update') {
         //save new user
         $user = $oUser;
         $user->email = $email;
-        $user->password = $password;
+        $user->password = createPassword($password);;
         $user->edited = date("Y-m-d H:i:s");;
-        $user->edited_by = 1;
+        $user->edited_by = $_SESSION['user_id'];
 
         $result = User::save($user);
 
         if ($result['status']) {
-            redirect('/');
+            redirect('/users/edit/' . $user->id);
         } else {
             $message = $result['message'];
         }
     }
 } elseif (isset($action) && $action === 'delete') {
-    USER::delete($oUser);
-    redirect('/users');
+    echo 'delete';
 }
 
 echo message($message, 'danger');

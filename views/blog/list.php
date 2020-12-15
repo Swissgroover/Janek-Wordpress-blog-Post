@@ -1,28 +1,77 @@
 <?php
 
-$action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
-$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+//default && first = 0,5
+//second -> 5,5
+//third -> 10,5
+//forth -> 15,5
 
-$oPost = Post::findById ($id);
+// max posts
+// pages count = max post / max on page
+// current page
 
-if (isset($action) && $action === 'delete') {
-    POST::delete($oPost);
-    redirect('/');
+/*
+ *
+ *
+ */
+
+$start = startQuery($currentPage);
+
+if (isset($search) && strlen($search) > 2) {
+    $posts = Post::all($start, MAX_ON_PAGE, $search);
+} else {
+    $posts = Post::all($start, MAX_ON_PAGE);
 }
 
-$posts = Post::all();
+$maxPosts = count($posts);
+$maxPages = ceil($maxPosts / MAX_ON_PAGE);
 
-if (!empty($posts)) : foreach ($posts as $post) { ?>
+?>
 
-    <div class="mt-5">
-        <div class="m-3">
-            <a href="<?php echo "/blog/post/" . $post->id;?>" class="h2 text-dark m-3"><?php echo $post->title?></a>
-        </div>
-        <div class="text-truncate">
-            <?php echo $post->body?>
-        </div>
-        <div class="m-3">
-            Added: <?php echo $post->added?>
-        </div>
+<div class="row">
+    <div class="col">
+        <form>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" name="search" value="<?php echo isset($search) ? $search : ""; ?>">
+                <div class="input-group-prepend">
+                    <button type="submit" class="btn btn-success">Search</button>
+                </div>
+            </div>
+        </form>
     </div>
-<?php } endif; ?>
+</div>
+<br>
+<div class="row">
+<?php if (!empty($posts)) : ?>
+    <?php foreach ($posts as $post) { ?>
+    <div class="col-4">
+        <div class="card">
+            <img src="https://via.placeholder.com/150/0000FF/808080?text=<?php echo $post->title; ?>" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"><?php echo $post->title; ?>(<?php echo $post->id; ?>)</h5>
+                <p class="card-text"><?php echo strLimit($post->body); ?></p>
+                <a href="/post/<?php echo $post->id; ?>" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <?php } ?>
+<?php else: ?>
+    <div class="col">
+        <div class="alert alert-info"><?php echo isset($search) ? 'No results or search to short' : 'No posts'; ?></div>
+    </div>
+<?php endif; ?>
+</div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item <?php echo $currentPage == 1 ? 'disabled' : ''; ?>">
+            <a class="page-link" href="/<?php echo $currentPage-1; ?>">Previous</a>
+        </li>
+        <?php for ($i = 1; $i <= $maxPages; $i++) : ?>
+            <li class="page-item"><a class="page-link" href="/<?php echo $i; ?>"><?php echo $i; ?></a></li>
+        <?php endfor; ?>
+        <li class="page-item <?php echo $currentPage+1 > $maxPages ? 'disabled' : ''; ?>">
+            <a class="page-link" href="/<?php echo $currentPage+1; ?>">Next</a>
+        </li>
+    </ul>
+</nav>

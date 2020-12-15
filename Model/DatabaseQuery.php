@@ -13,6 +13,17 @@ class DatabaseQuery {
         return $db->query($sql)->fetchAll(PDO::FETCH_CLASS, static::$className);
     }
 
+    public static function count() {
+        global $db;
+
+        $sql = 'SELECT COUNT(*) as "count" FROM ' . static::$tableName;
+
+        $array = $db->query($sql)->fetchAll(PDO::FETCH_CLASS, static::$className);
+        $request = reset($array);
+
+        return $request->count;
+    }
+
     public static function findById($id) {
         global $db;
 
@@ -24,7 +35,7 @@ class DatabaseQuery {
     }
 
     public static function save($obj) {
-        
+
         if (empty($obj->id)) {
             return self::insert($obj);
         } else {
@@ -68,6 +79,7 @@ class DatabaseQuery {
         return [
             'status' => true,
             'message' => 'success',
+            'id' => $db->lastInsertId()
         ];
 
     }
@@ -107,7 +119,7 @@ class DatabaseQuery {
                 'message' => $e->getMessage(),
             ];
         }
-
+            
         return [
             'status' => true,
             'message' => 'success',

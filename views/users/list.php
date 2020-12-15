@@ -8,16 +8,6 @@
     </tr>
 <?php
 
-$action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
-$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
-
-$oUser = User::findById ($id);
-
-if (isset($action) && $action === 'delete') {
-    USER::delete($oUser);
-    redirect('/');
-}
-
 $users = User::all();
 
 if (!empty($users)) : foreach ($users as $user) { ?>
@@ -25,11 +15,8 @@ if (!empty($users)) : foreach ($users as $user) { ?>
         <td><?php echo $user->email; ?></td>
         <td><?php echo $user->added; ?></td>
         <td><?php echo $user->edited; ?></td>
-        <td><form method="post">
-            <input type="hidden" name='id' id='id' value="<?php echo $user->id;?>">
-            <a class="btn btn-success" href="users/edit/<?php echo $user->id; ?>">Edit</a>
-            <button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
-        </form></td>
+        <td><a href="users/edit/<?php echo $user->id; ?>">Edit</a></td>
+        <td><a href="users/delete/<?php echo $user->id; ?>">Delete</a></td>
     </tr>
 <?php } endif; ?>
 

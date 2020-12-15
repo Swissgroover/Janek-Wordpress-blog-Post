@@ -10,12 +10,11 @@ $config = require_once 'config.php';
 $routes = require_once 'routes.php';
 
 require_once 'include' . DIRECTORY_SEPARATOR . 'functions.php';
-require_once 'model' . DIRECTORY_SEPARATOR . 'Database.php';
-
+require_once 'Model' . DIRECTORY_SEPARATOR . 'Database.php';
 
 $db = (new Database($config))->connection();
 
-require_once 'model' . DIRECTORY_SEPARATOR . 'DatabaseQuery.php';
-require_once 'model' . DIRECTORY_SEPARATOR . 'User.php';
-require_once 'model' . DIRECTORY_SEPARATOR . 'Post.php';
-require_once 'model' . DIRECTORY_SEPARATOR . 'Translation.php';
+require_once 'Model' . DIRECTORY_SEPARATOR . 'DatabaseQuery.php';
+require_once 'Model' . DIRECTORY_SEPARATOR . 'User.php';
+require_once 'Model' . DIRECTORY_SEPARATOR . 'Post.php';
+require_once 'Model' . DIRECTORY_SEPARATOR . 'Translation.php';
